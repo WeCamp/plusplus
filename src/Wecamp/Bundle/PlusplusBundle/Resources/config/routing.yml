@@ -1,3 +1,11 @@
 wecamp_plusplus_homepage:
     path:     /hello/{name}
     defaults: { _controller: WecampPlusplusBundle:Default:index }
+
+list:
+    path:     /
+    defaults: { _controller: WecampPlusplusBundle:List:list }
+
+_add:
+    path:     /label/add
+    defaults: { _controller: WecampPlusplusBundle:Label:add }
