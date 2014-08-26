@@ -9,15 +9,9 @@ class ListController extends Controller
 {
     public function listAction()
     {
-        $t = new Thing();
-        $t->setName('hello');
-        $this->getDoctrineService()->storeThing($t);
-
-        var_dump($this->getDoctrineService()->getThingRepository()->findAll());
-
-
+        $things =  $this->getDoctrineService()->getThingRepository()->findAll();
         return $this->render('WecampPlusplusBundle:List:list.html.twig', array(
-                // ...
+                'things' => $things
             )
         );
     }

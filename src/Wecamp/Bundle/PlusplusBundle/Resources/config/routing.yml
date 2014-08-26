@@ -9,3 +9,9 @@ list:
 _add:
     path:     /label/add
     defaults: { _controller: WecampPlusplusBundle:Label:add }
+
+_createThing:
+    pattern:        /label/create/{thingie}
+    defaults:       { _controller: WecampPlusplusBundle:Label:create }
+    requirements:
+      _method:  POST
