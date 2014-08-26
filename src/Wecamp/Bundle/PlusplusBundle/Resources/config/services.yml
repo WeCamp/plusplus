@@ -1,7 +1,7 @@
 parameters:
-#    wecamp_plusplus.example.class: Wecamp\Bundle\PlusplusBundle\Example
+    wecamp_plusplus.doctrine.service: Wecamp\Bundle\PlusplusBundle\Service\Doctrine
 
 services:
-#    wecamp_plusplus.example:
-#        class: %wecamp_plusplus.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    wecamp_plusplus.data:
+        class: %wecamp_plusplus.doctrine.service%
+        arguments: [ @doctrine.orm.entity_manager ]
