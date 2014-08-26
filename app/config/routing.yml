@@ -1,0 +1,4 @@
+wecamp_plusplus:
+    resource: "@WecampPlusplusBundle/Resources/config/routing.yml"
+    prefix:   /
+

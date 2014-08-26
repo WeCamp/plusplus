@@ -1,0 +1,7 @@
+parameters:
+#    wecamp_plusplus.example.class: Wecamp\Bundle\PlusplusBundle\Example
+
+services:
+#    wecamp_plusplus.example:
+#        class: %wecamp_plusplus.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
