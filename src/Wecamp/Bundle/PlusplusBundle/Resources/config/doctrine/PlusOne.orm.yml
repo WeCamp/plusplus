@@ -1,0 +1,22 @@
+Wecamp\Bundle\PlusplusBundle\Entity\PlusOne:
+    type: entity
+    table: plus_one
+    repositoryClass: Wecamp\Bundle\PlusplusBundle\Entity\PlusOneRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    manyToOne:
+        thing:
+            targetEntity: Thing
+
+    fields:
+        latitude:
+            type: decimal
+        longitude:
+            type: decimal
+        created:
+            type: datetime
+    lifecycleCallbacks: {  }

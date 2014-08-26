@@ -1,0 +1,15 @@
+Wecamp\Bundle\PlusplusBundle\Entity\Thing:
+    type: entity
+    table: thing
+    repositoryClass: Wecamp\Bundle\PlusplusBundle\Entity\ThingRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }
