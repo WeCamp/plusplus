@@ -30,9 +30,9 @@ class PlusOne
     private $created;
 
     /**
-     * @var \Wecamp\Bundle\PlusplusBundle\Entity\Thing
+     * @var \Wecamp\Bundle\PlusplusBundle\Entity\Subject
      */
-    private $thing;
+    private $subject;
 
 
     /**
@@ -115,25 +115,25 @@ class PlusOne
     }
 
     /**
-     * Set thing
+     * Set subject
      *
-     * @param \Wecamp\Bundle\PlusplusBundle\Entity\Thing $thing
+     * @param \Wecamp\Bundle\PlusplusBundle\Entity\Subject $subject
      * @return PlusOne
      */
-    public function setThing(\Wecamp\Bundle\PlusplusBundle\Entity\Thing $thing = null)
+    public function setSubject(\Wecamp\Bundle\PlusplusBundle\Entity\Subject $subject)
     {
-        $this->thing = $thing;
+        $this->subject = $subject;
 
         return $this;
     }
 
     /**
-     * Get thing
+     * Get subject
      *
-     * @return \Wecamp\Bundle\PlusplusBundle\Entity\Thing 
+     * @return \Wecamp\Bundle\PlusplusBundle\Entity\Subject 
      */
-    public function getThing()
+    public function getSubject()
     {
-        return $this->thing;
+        return $this->subject;
     }
 }

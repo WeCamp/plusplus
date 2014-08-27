@@ -5,9 +5,9 @@ namespace Wecamp\Bundle\PlusplusBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Thing
+ * Subject
  */
-class Thing
+class Subject
 {
     /**
      * @var integer
@@ -19,6 +19,18 @@ class Thing
      */
     private $name;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $plus_ones;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->plus_ones = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -34,7 +46,7 @@ class Thing
      * Set name
      *
      * @param string $name
-     * @return Thing
+     * @return Subject
      */
     public function setName($name)
     {
@@ -52,24 +64,12 @@ class Thing
     {
         return $this->name;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $plus_ones;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->plus_ones = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add plus_ones
      *
      * @param \Wecamp\Bundle\PlusplusBundle\Entity\PlusOne $plusOnes
-     * @return Thing
+     * @return Subject
      */
     public function addPlusOne(\Wecamp\Bundle\PlusplusBundle\Entity\PlusOne $plusOnes)
     {

@@ -10,7 +10,7 @@ _add:
     path:     /label/add
     defaults: { _controller: WecampPlusplusBundle:Label:add }
 
-_createThing:
+_createSubject:
     path:        /label/create
     defaults:       { _controller: WecampPlusplusBundle:Label:create }
     methods:  [POST]

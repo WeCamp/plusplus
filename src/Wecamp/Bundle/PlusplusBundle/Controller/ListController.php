@@ -3,15 +3,15 @@
 namespace Wecamp\Bundle\PlusplusBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Wecamp\Bundle\PlusplusBundle\Entity\Thing;
+use Wecamp\Bundle\PlusplusBundle\Entity\Subject;
 
 class ListController extends Controller
 {
     public function listAction()
     {
-        $things =  $this->getDoctrineService()->getThingRepository()->findAll();
+        $subjects =  $this->getDoctrineService()->getSubjectRepository()->findAll();
         return $this->render('WecampPlusplusBundle:List:list.html.twig', array(
-                'things' => $things
+                'subjects' => $subjects
             )
         );
     }

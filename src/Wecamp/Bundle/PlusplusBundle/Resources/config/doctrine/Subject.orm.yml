@@ -1,7 +1,7 @@
-Wecamp\Bundle\PlusplusBundle\Entity\Thing:
+Wecamp\Bundle\PlusplusBundle\Entity\Subject:
     type: entity
-    table: thing
-    repositoryClass: Wecamp\Bundle\PlusplusBundle\Entity\ThingRepository
+    table: subject
+    repositoryClass: Wecamp\Bundle\PlusplusBundle\Entity\SubjectRepository
     id:
         id:
             type: integer
@@ -11,7 +11,7 @@ Wecamp\Bundle\PlusplusBundle\Entity\Thing:
     oneToMany:
         plus_ones:
             targetEntity: PlusOne
-            mappedBy: thing
+            mappedBy: subject
     fields:
         name:
             type: string

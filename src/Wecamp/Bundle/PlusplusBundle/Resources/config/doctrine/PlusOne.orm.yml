@@ -9,11 +9,11 @@ Wecamp\Bundle\PlusplusBundle\Entity\PlusOne:
             generator:
                 strategy: AUTO
     manyToOne:
-        thing:
-            targetEntity: Thing
+        subject:
+            targetEntity: Subject
             inversedBy: plus_ones
             joinColumn:
-                name: thing_id
+                name: subject_id
                 referencedColumnName: id
                 nullable: false
 

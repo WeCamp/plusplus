@@ -4,7 +4,7 @@
 namespace Wecamp\Bundle\PlusplusBundle\Service;
 
 use Wecamp\Bundle\PlusplusBundle\Entity\PlusOne;
-use Wecamp\Bundle\PlusplusBundle\Entity\Thing;
+use Wecamp\Bundle\PlusplusBundle\Entity\Subject;
 
 class Doctrine {
 
@@ -16,11 +16,11 @@ class Doctrine {
     }
 
     /**
-     * @return \Wecamp\Bundle\PlusplusBundle\Entity\ThingRepository
+     * @return \Wecamp\Bundle\PlusplusBundle\Entity\SubjectRepository
      */
-    public function getThingRepository()
+    public function getSubjectRepository()
     {
-        return $this->em->getRepository('WecampPlusplusBundle:Thing');
+        return $this->em->getRepository('WecampPlusplusBundle:Subject');
     }
 
     /**
@@ -44,19 +44,19 @@ class Doctrine {
     }
 
     /**
-     * @param Thing $thing
+     * @param Subject $subject
      */
-    public function storeThing(Thing $thing)
+    public function storeSubject(Subject $subject)
     {
-        $existing = $this->getThingRepository()->findBy(
+        $existing = $this->getSubjectRepository()->findBy(
             array(
-                'name' => $thing->getName()
+                'name' => $subject->getName()
             )
         );
 
         if (empty($existing)) {
-            $this->em->persist($thing);
-            $this->em->flush($thing);
+            $this->em->persist($subject);
+            $this->em->flush($subject);
         }
     }
 

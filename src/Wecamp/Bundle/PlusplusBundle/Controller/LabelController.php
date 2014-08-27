@@ -5,7 +5,7 @@ namespace Wecamp\Bundle\PlusplusBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Wecamp\Bundle\PlusplusBundle\Entity\Thing;
+use Wecamp\Bundle\PlusplusBundle\Entity\Subject;
 
 class LabelController extends Controller
 {
@@ -18,13 +18,13 @@ class LabelController extends Controller
 
     public function createAction(Request $request)
     {
-        $thing = new Thing();
-        $form = $this->getThingForm($thing);
+        $subject = new Subject();
+        $form = $this->getSubjectForm($subject);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->getDoctrineService()->storeThing($thing);
-            $data = "Thingie has been stored";
+            $this->getDoctrineService()->storeSubject($subject);
+            $data = "Subjectie has been stored";
         } else {
             $data = $form->getErrors();
         }
@@ -33,15 +33,15 @@ class LabelController extends Controller
     }
 
     /**
-     * @param Thing $thing
+     * @param Subject $subject
      * @return \Symfony\Component\Form\Form
      */
-    private function getThingForm(Thing $thing)
+    private function getSubjectForm(Subject $subject)
     {
         return $this->get('form.factory')->createNamedBuilder(
             null,
             'form',
-            $thing,
+            $subject,
             array(
                 'csrf_protection' => false
             )
