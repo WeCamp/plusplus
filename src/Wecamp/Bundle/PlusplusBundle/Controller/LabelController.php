@@ -16,14 +16,38 @@ class LabelController extends Controller
             ));
     }
 
-    public function createAction($thingieName)
+    public function createAction(Request $request)
     {
         $thing = new Thing();
-        $thing->setName($thingieName);
+        $form = $this->getThingForm($thing);
+        $form->handleRequest($request);
 
-        $this->getDoctrineService()->storeThing($thing);
-        $data = "Thingie has been stored";
+        if ($form->isValid()) {
+            $this->getDoctrineService()->storeThing($thing);
+            $data = "Thingie has been stored";
+        } else {
+            $data = $form->getErrors();
+        }
+
         return new JsonResponse($data);
+    }
+
+    /**
+     * @param Thing $thing
+     * @return \Symfony\Component\Form\Form
+     */
+    private function getThingForm(Thing $thing)
+    {
+        return $this->get('form.factory')->createNamedBuilder(
+            null,
+            'form',
+            $thing,
+            array(
+                'csrf_protection' => false
+            )
+        )
+        ->add('name', 'text')
+        ->getForm();
     }
 
     /**
