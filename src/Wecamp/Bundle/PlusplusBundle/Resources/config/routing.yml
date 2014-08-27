@@ -16,10 +16,8 @@ _createSubject:
     methods:  [POST]
 
 _plusOneSubject:
-  path: /plusone/{subjectId}
+  path: /plusone
   defaults: { _controller: WecampPlusplusBundle:Subject:plusone }
-  requirements:
-    id: \d+
 
 _download:
     pattern:        /download

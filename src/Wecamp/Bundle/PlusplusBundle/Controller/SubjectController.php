@@ -37,7 +37,7 @@ class SubjectController extends Controller
 
     public function plusoneAction(Request $request)
     {
-        $plusOne = $this->getDoctrineService()->createPlusOne($request->attributes->get('subjectId'), $request);
+        $plusOne = $this->getDoctrineService()->createPlusOne($request->request->get('subjectId'), $request);
         $this->getDoctrineService()->storePlusOne($plusOne);
         return new JsonResponse($plusOne);
     }

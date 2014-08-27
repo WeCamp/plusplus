@@ -106,8 +106,8 @@ class Doctrine {
      */
     private function getLatitudeFromRequest(Request $request)
     {
-        if (filter_var($request->attributes->get('latitude'), FILTER_VALIDATE_FLOAT)) {
-            return $request->attributes->get('latitude');
+        if (filter_var($request->request->get('latitude'), FILTER_VALIDATE_FLOAT)) {
+            return $request->request->get('latitude');
         }
         return null;
     }
@@ -118,8 +118,8 @@ class Doctrine {
      */
     private function getLongitudeFromRequest(Request $request)
     {
-        if (filter_var($request->attributes->get('longitude'), FILTER_VALIDATE_FLOAT)) {
-            return $request->attributes->get('longitude');
+        if (filter_var($request->request->get('longitude'), FILTER_VALIDATE_FLOAT)) {
+            return $request->request->get('longitude');
         }
         return null;
     }

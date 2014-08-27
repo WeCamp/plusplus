@@ -7,7 +7,7 @@
 <h1>Welcome to the List:list page</h1>
 <ul>
     {% for subject in subjects %}
-    <li id="subject_{{ subject.id }}">
+    <li class="subject" data-subject-id="{{ subject.id }}">
         <div class="lable_name col-md-6">{{ subject.name }}</div>
         <div class="lable_counts_container col-md-6">
             <div class="lable_counts col-md-6">10</div>
@@ -16,4 +16,64 @@
     </li>
     {% endfor %}
 </ul>
+{% endblock %}
+{% block javascript %}
+    {{ parent() }}
+    <script>
+    (function() {
+        'use strict';
+
+        $(document).on(
+                'ready',
+                function() {
+                    $('li.subject').on('click', function (){ labelClicked($(this)) });
+                }
+        );
+
+        function labelClicked(subjectListItem) {
+            console.log(subjectListItem);
+            var subjectId = subjectListItem.attr('data-subject-id');
+            geoFindMe(addPlusOne, subjectId);
+        }
+
+        var latitude = null;
+        var longitude = null;
+
+        function addPlusOne(subject, longitude, latitude) {
+
+            $.ajax(
+                '{{ path('_plusOneSubject') }}',
+                {
+                    type: 'POST',
+                    data: {
+                        subjectId: subject,
+                        longitude: longitude,
+                        latitude: latitude
+                    }
+                }
+            );
+        }
+
+        function geoFindMe(addPlus, subjectid) {
+
+            if (!navigator.geolocation){
+                error();
+                return;
+            }
+
+            function success(position) {
+                latitude  = position.coords.latitude;
+                longitude = position.coords.longitude;
+                addPlus(subjectid,latitude,longitude);
+                console.log(position);
+            };
+
+            function error() {
+                addPlus(subjectid, null, null);
+            };
+
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+    })();
+    </script>
 {% endblock %}
