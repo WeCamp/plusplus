@@ -22,5 +22,41 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="{{ app.request.basepath }}/bundles/wecampplusplus/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+
+{% block javascript %}
+    <script type="text/javascript">
+        (function() {
+            'use strict';
+
+            var nameElem = $('input[name="name"]');
+            var submitElem = $('button[type="submit"]');
+
+            $(document).on(
+                'ready',
+                function() {
+                    submitElem.on('click', submitClicked);
+                }
+            );
+
+            function submitClicked(e) {
+                e.preventDefault();
+
+                addSubject(nameElem.val());
+            }
+
+            function addSubject(name) {
+                $.ajax(
+                    '{{ path('_createSubject') }}',
+                    {
+                        type: 'POST',
+                        data: {
+                            name: name
+                        }
+                    }
+                );
+            }
+        })();
+    </script>
+{% endblock %}
 </body>
 </html>
