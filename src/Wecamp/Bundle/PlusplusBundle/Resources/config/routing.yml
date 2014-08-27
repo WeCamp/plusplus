@@ -14,3 +14,9 @@ _createThing:
     path:        /label/create
     defaults:       { _controller: WecampPlusplusBundle:Label:create }
     methods:  [POST]
+
+_plusOneSubject:
+  path: /plusone/{id}
+  defaults: { _controller: WecampPlusplusBundle:Label:plusone }
+  requirements:
+    id: \d+
