@@ -15,7 +15,13 @@ _createThing:
     defaults:       { _controller: WecampPlusplusBundle:Label:create }
     methods:  [POST]
 
+_plusOneSubject:
+  path: /plusone/{id}
+  defaults: { _controller: WecampPlusplusBundle:Label:plusone }
+  requirements:
+    id: \d+
+
 _download:
     pattern:        /download
     defaults:       { _controller: WecampPlusplusBundle:Download:download }
-    methods: [ GET ]
+    methods:        [ GET ]
