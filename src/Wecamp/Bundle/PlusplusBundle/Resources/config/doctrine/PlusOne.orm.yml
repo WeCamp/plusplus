@@ -11,6 +11,11 @@ Wecamp\Bundle\PlusplusBundle\Entity\PlusOne:
     manyToOne:
         thing:
             targetEntity: Thing
+            inversedBy: plus_ones
+            joinColumn:
+                name: thing_id
+                referencedColumnName: id
+                nullable: false
 
     fields:
         latitude:

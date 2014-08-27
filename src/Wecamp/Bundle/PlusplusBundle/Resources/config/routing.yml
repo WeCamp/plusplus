@@ -13,5 +13,9 @@ _add:
 _createThing:
     pattern:        /label/create/{thingie}
     defaults:       { _controller: WecampPlusplusBundle:Label:create }
-    requirements:
-      _method:  POST
+    methods:        [ POST ]
+
+_download:
+    pattern:        /download
+    defaults:       { _controller: WecampPlusplusBundle:Download:download }
+    methods:        [ GET ]

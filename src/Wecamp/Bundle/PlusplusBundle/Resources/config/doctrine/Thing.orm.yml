@@ -8,6 +8,10 @@ Wecamp\Bundle\PlusplusBundle\Entity\Thing:
             id: true
             generator:
                 strategy: AUTO
+    oneToMany:
+        plus_ones:
+            targetEntity: PlusOne
+            mappedBy: thing
     fields:
         name:
             type: string
