@@ -11,9 +11,12 @@ class SubjectController extends Controller
 {
     public function addAction()
     {
-        return $this->render('WecampPlusplusBundle:Subject:add.html.twig', array(
-                // ...
-            ));
+        return $this->render(
+            'WecampPlusplusBundle:Subject:add.html.twig',
+            [
+                'form' => $this->getSubjectForm()->createView()
+            ]
+        );
     }
 
     public function createAction(Request $request)
@@ -40,10 +43,10 @@ class SubjectController extends Controller
     }
 
     /**
-     * @param Subject $subject
+     * @param Subject|null $subject
      * @return \Symfony\Component\Form\Form
      */
-    private function getSubjectForm(Subject $subject)
+    private function getSubjectForm(Subject $subject = null)
     {
         return $this->get('form.factory')->createNamedBuilder(
             null,
@@ -54,6 +57,7 @@ class SubjectController extends Controller
             )
         )
         ->add('name', 'text')
+        ->add('submit', 'submit', [ 'label' => 'Add Subject'] )
         ->getForm();
     }
 
