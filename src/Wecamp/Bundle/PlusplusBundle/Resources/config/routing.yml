@@ -7,17 +7,17 @@ list:
     defaults: { _controller: WecampPlusplusBundle:List:list }
 
 _add:
-    path:     /label/add
-    defaults: { _controller: WecampPlusplusBundle:Label:add }
+    path:     /subject/add
+    defaults: { _controller: WecampPlusplusBundle:Subject:add }
 
 _createSubject:
-    path:        /label/create
-    defaults:       { _controller: WecampPlusplusBundle:Label:create }
+    path:        /subject/create
+    defaults:       { _controller: WecampPlusplusBundle:Subject:create }
     methods:  [POST]
 
 _plusOneSubject:
   path: /plusone/{id}
-  defaults: { _controller: WecampPlusplusBundle:Label:plusone }
+  defaults: { _controller: WecampPlusplusBundle:Subject:plusone }
   requirements:
     id: \d+
 

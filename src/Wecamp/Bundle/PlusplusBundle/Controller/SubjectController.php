@@ -7,11 +7,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Wecamp\Bundle\PlusplusBundle\Entity\Subject;
 
-class LabelController extends Controller
+class SubjectController extends Controller
 {
     public function addAction()
     {
-        return $this->render('WecampPlusplusBundle:Label:add.html.twig', array(
+        return $this->render('WecampPlusplusBundle:Subject:add.html.twig', array(
                 // ...
             ));
     }
@@ -24,7 +24,7 @@ class LabelController extends Controller
 
         if ($form->isValid()) {
             $this->getDoctrineService()->storeSubject($subject);
-            $data = "Subjectie has been stored";
+            $data = "Subject has been stored";
         } else {
             $data = $form->getErrors();
         }
