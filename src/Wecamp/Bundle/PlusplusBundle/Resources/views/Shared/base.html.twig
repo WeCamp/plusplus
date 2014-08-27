@@ -77,22 +77,22 @@
                 }
             );
 
+            function addSubject(name) {
+                $.ajax(
+                        '{{ path('_createSubject') }}',
+                        {
+                            type: 'POST',
+                            data: {
+                                name: name
+                            }
+                        }
+                );
+            }
+
             function submitClicked(e) {
                 e.preventDefault();
 
                 addSubject(nameElem.val());
-            }
-
-            function addSubject(name) {
-                $.ajax(
-                    '{{ path('_createSubject') }}',
-                    {
-                        type: 'POST',
-                        data: {
-                            name: name
-                        }
-                    }
-                );
             }
         })();
     </script>
