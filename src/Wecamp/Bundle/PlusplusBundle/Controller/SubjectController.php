@@ -7,13 +7,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Wecamp\Bundle\PlusplusBundle\Entity\Subject;
 
-class LabelController extends Controller
+class SubjectController extends Controller
 {
     public function addAction()
     {
-        return $this->render('WecampPlusplusBundle:Label:add.html.twig', array(
-                // ...
-            ));
+        return $this->render(
+            'WecampPlusplusBundle:Subject:add.html.twig',
+            [
+                'form' => $this->getSubjectForm()->createView()
+            ]
+        );
     }
 
     public function createAction(Request $request)
@@ -24,7 +27,7 @@ class LabelController extends Controller
 
         if ($form->isValid()) {
             $this->getDoctrineService()->storeSubject($subject);
-            $data = "Subjectie has been stored";
+            $data = "Subject has been stored";
         } else {
             $data = $form->getErrors();
         }
@@ -32,11 +35,18 @@ class LabelController extends Controller
         return new JsonResponse($data);
     }
 
+    public function plusoneAction(Request $request)
+    {
+        $plusOne = $this->getDoctrineService()->createPlusOne($request->attributes->get('subjectId'), $request);
+        $this->getDoctrineService()->storePlusOne($plusOne);
+        return new JsonResponse($plusOne);
+    }
+
     /**
-     * @param Subject $subject
+     * @param Subject|null $subject
      * @return \Symfony\Component\Form\Form
      */
-    private function getSubjectForm(Subject $subject)
+    private function getSubjectForm(Subject $subject = null)
     {
         return $this->get('form.factory')->createNamedBuilder(
             null,
@@ -47,6 +57,7 @@ class LabelController extends Controller
             )
         )
         ->add('name', 'text')
+        ->add('submit', 'submit', [ 'label' => 'Add Subject'] )
         ->getForm();
     }
 
