@@ -9,7 +9,7 @@ class ListController extends Controller
 {
     public function listAction()
     {
-        $subjects =  $this->getDoctrineService()->getSubjectRepository()->findAll();
+        $subjects = $this->getDoctrineService()->getSubjectRepository()->findAll();
         return $this->render('WecampPlusplusBundle:List:list.html.twig', array(
                 'subjects' => $subjects
             )

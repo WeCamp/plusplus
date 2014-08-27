@@ -32,6 +32,13 @@ class SubjectController extends Controller
         return new JsonResponse($data);
     }
 
+    public function plusoneAction(Request $request)
+    {
+        $plusOne = $this->getDoctrineService()->createPlusOne($request->attributes->get('subjectId'), $request);
+        $this->getDoctrineService()->storePlusOne($plusOne);
+        return new JsonResponse($plusOne);
+    }
+
     /**
      * @param Subject $subject
      * @return \Symfony\Component\Form\Form

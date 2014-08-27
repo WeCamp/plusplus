@@ -20,8 +20,10 @@ Wecamp\Bundle\PlusplusBundle\Entity\PlusOne:
     fields:
         latitude:
             type: decimal
+            nullable: true
         longitude:
             type: decimal
+            nullable: true
         created:
             type: datetime
     lifecycleCallbacks: {  }
