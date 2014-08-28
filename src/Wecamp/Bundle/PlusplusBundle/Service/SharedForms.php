@@ -33,11 +33,14 @@ class SharedForms
     /**
      * Get a form containing a select element for Subjects
      *
+     * @param bool $expanded
+     * @param bool $multi
+     *
      * @return FormInterface
      */
-    public function getSubjectSelectForm($expanded=false,$multi=false,$showbuttons=false)
+    public function getSubjectSelectForm($expanded=false,$multi=false)
     {
-        $form = $this->formFactory->createNamedBuilder(
+        return $this->formFactory->createNamedBuilder(
                 null,
                 'form',
                 null,
@@ -63,18 +66,7 @@ class SharedForms
                     'multiple' => $multi,
                     'expanded' => $expanded
                 ]
-            );
-            if($showbuttons=true) {
-                $form->add(
-                    'update',
-                    'submit',
-                    [
-                        'attr' => [
-                            'class' => 'btn btn-success'
-                        ]
-                    ]
-                );
-            }
-            return $form->getForm();
+            )
+            ->getForm();
     }
 } 
