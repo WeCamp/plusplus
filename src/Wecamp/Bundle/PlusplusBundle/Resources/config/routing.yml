@@ -33,3 +33,8 @@ _download:
     pattern:        /download
     defaults:       { _controller: WecampPlusplusBundle:Download:download }
     methods:        [ GET ]
+
+_trendsChart:
+    pattern:        /charts/trends
+    defaults:       { _controller: WecampPlusplusBundle:Graphs:display }
+    methods:        [ GET ]
