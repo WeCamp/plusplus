@@ -4,8 +4,11 @@
 
 
 {% block body %}
-<ul class="list-group">
-    {% for subject in subjects %}
+{% for letterGroup, subjectGroup in subjects %}
+
+<ul class="list-group" style="margin-top:10px;">
+    <li class="list-group-item list-group-item-info">{{ letterGroup }}</li>
+    {% for subject in subjectGroup %}
     <li class="bobs-list-item subject list-group-item" data-subject-id="{{ subject.id }}">
         <div class="progress progress-striped bobs-super-duper-progress-bar">
             <div class="progress-bar progress-bar-warning"></div>
@@ -17,6 +20,7 @@
     </li>
     {% endfor %}
 </ul>
+{% endfor %}
 {% endblock %}
 {% block javascript %}
     {{ parent() }}
@@ -25,7 +29,7 @@
         'use strict';
 
         $(document).on(
-                'ready',
+                'ready',    
                 function() {
                     $('li.subject').on('click', function (){ labelClicked($(this)) });
                 }

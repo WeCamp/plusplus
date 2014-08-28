@@ -9,7 +9,17 @@ class ListController extends Controller
 {
     public function listAction()
     {
-        $subjects = $this->getDoctrineService()->getSubjectRepository()->findBy(array(), array('name' => 'ASC'));
+        /** @var Subject[] $subjectsOrdered */
+        $subjectsOrdered = $this->getDoctrineService()->getSubjectRepository()->findBy(
+            array(),
+            array('name' => 'ASC')
+        );
+        $currentLetter = null;
+        $subjects = array();
+        foreach($subjectsOrdered as $subject) {
+            $currentLetter = substr($subject->getName(),0,1);
+            $subjects[$currentLetter][] = $subject;
+        }
         return $this->render('WecampPlusplusBundle:List:list.html.twig', array(
                 'subjects' => $subjects
             )
