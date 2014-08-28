@@ -8,15 +8,14 @@
 <ul>
     {% for subject in subjects %}
     <li class="subject" data-subject-id="{{ subject.id }}">
-        <div class="lable_name col-md-6">{{ subject.name }}</div>
-        <div class="lable_counts_container col-md-6">
-            <div class="lable_counts col-md-6">10</div>
-            <div class="plus_button col-md-6"><span class="glyphicon glyphicon-plus"></span></div>
-        </div>
+        <span class="badge pull-right">{{ subject.plusones|length }}</span>
+        {{ subject.name }}
     </li>
     {% endfor %}
 </ul>
 {% endblock %}
+
+
 {% block javascript %}
     {{ parent() }}
     <script>
@@ -33,28 +32,33 @@
         function labelClicked(subjectListItem) {
             console.log(subjectListItem);
             var subjectId = subjectListItem.attr('data-subject-id');
-            geoFindMe(addPlusOne, subjectId);
+            geoFindMe(addPlusOne, subjectId, subjectListItem);
         }
 
         var latitude = null;
         var longitude = null;
 
-        function addPlusOne(subject, longitude, latitude) {
+        function addPlusOne(subjectid, longitude, latitude, subjectListItem) {
 
             $.ajax(
                 '{{ path('_plusOneSubject') }}',
                 {
                     type: 'POST',
                     data: {
-                        subjectId: subject,
+                        subjectId: subjectid,
                         longitude: longitude,
                         latitude: latitude
                     }
                 }
-            );
+            ).done(function() {
+                //subject is the subject id
+                var badge = subjectListItem.find('.badge');
+                var subjectCount = parseInt( badge.text() );
+                badge.text(subjectCount+1);
+            });
         }
 
-        function geoFindMe(addPlus, subjectid) {
+        function geoFindMe(addPlus, subjectid, subjectListItem) {
 
             if (!navigator.geolocation){
                 error();
@@ -64,7 +68,7 @@
             function success(position) {
                 latitude  = position.coords.latitude;
                 longitude = position.coords.longitude;
-                addPlus(subjectid,latitude,longitude);
+                addPlus(subjectid,latitude,longitude, subjectListItem);
                 console.log(position);
             };
 
