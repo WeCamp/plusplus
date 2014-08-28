@@ -29,11 +29,18 @@
             // Setup google maps
             function initialize() {
 
+                // Fixup width
+                var width = $('.container').width();
+                $('#map-canvas')
+                    .width(width)
+                    .height(width / 2);
+
+
                 mapElem = $('#map-canvas');
 
                 var mapOptions = {
-                    center: new google.maps.LatLng(52.3722198,5.6345525),
-                    zoom: 16
+                    center: new google.maps.LatLng(53.6163601,-2.420925),
+                    zoom: 6
                 };
                 map = new google.maps.Map(
                     mapElem[0],
@@ -46,6 +53,7 @@
             $(document).on(
                 'ready',
                 function() {
+
 
                     // Listen for select change
                     $('select[name="subject"]').on(
