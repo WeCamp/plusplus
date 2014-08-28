@@ -29,15 +29,15 @@ class LoadSubjectData extends AbstractFixture implements FixtureInterface, Order
         $manager->persist($beersSubject);
         $this->addReference('subject-beers', $beersSubject);
 
-        $pizzasSubject = new Subject();
-        $pizzasSubject->setName('Pizzas Eaten');
-        $manager->persist($pizzasSubject);
-        $this->addReference('subject-pizzas', $pizzasSubject);
-
         $hangoversSubject = new Subject();
         $hangoversSubject->setName('Hangovers Endured');
         $manager->persist($hangoversSubject);
         $this->addReference('subject-hangovers', $hangoversSubject);
+
+        $pizzasSubject = new Subject();
+        $pizzasSubject->setName('Pizzas Eaten');
+        $manager->persist($pizzasSubject);
+        $this->addReference('subject-pizzas', $pizzasSubject);
 
         $manager->flush();
     }
