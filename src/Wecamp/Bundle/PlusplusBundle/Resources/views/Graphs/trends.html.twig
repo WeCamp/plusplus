@@ -6,11 +6,16 @@
     <h1>Charts!</h1>
 
     {{ form_widget(form.subject) }}
+    <br>
+
+    <div class="graph-title"></div>
+
     <canvas id="myChart" height="400"></canvas>
 {% endblock %}
 
 {% block javascript %}
     <script src="{{ app.request.basepath }}/bundles/wecampplusplus/chart.js/Chart.min.js"></script>
+
     <script type="text/javascript">
 
         (function() {
@@ -62,12 +67,16 @@
             for(var i=0; i<24; i++) {
                 hours[i]=0;
             }
+
+            var length = 0;
             for(var index in data) {
                 var dateString = data[index].created;
                 var newDate = new Date(dateString);
                 var hour = newDate.getHours();
                 hours[hour]++;
+                length++;
             }
+
             console.log(hours);
             var graphData = {
                 labels: ["12pm","1am","2am","3am","4am","5am","6am","7am","8am","9am","10am","11am","12am","1pm","2pm","3pm","4pm","5pm","6pm","7pm","8pm","9pm","10pm","11pm","12pm"],
@@ -90,6 +99,18 @@
             var ctx = document.getElementById("myChart").getContext("2d");
             var myLineChart = new Chart(ctx).Line(graphData, options);
 
+
+
+            if (!length) {
+                return;
+            }
+
+            var first = moment(data[0].created).format('ddd Do MMM [\']YY');
+            var last = moment(data[length-1].created).format('ddd Do MMM [\']YY');
+
+            $('.graph-title').text(
+                first + ' - ' + last
+            )
         }
     </script>
 {% endblock %}
