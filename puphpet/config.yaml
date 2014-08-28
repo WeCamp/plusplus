@@ -138,7 +138,7 @@ php:
         display_errors: On
         error_reporting: '-1'
         session.save_path: /var/lib/php/session
-    timezone: America/Chicago
+    timezone: Europe/Berlin
     mod_php: 0
 hhvm:
     install: '0'
