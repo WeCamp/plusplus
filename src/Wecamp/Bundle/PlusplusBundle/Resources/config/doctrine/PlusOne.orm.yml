@@ -20,9 +20,13 @@ Wecamp\Bundle\PlusplusBundle\Entity\PlusOne:
     fields:
         latitude:
             type: decimal
+            scale: 6
+            precision: 10
             nullable: true
         longitude:
             type: decimal
+            scale: 6
+            precision: 10
             nullable: true
         created:
             type: datetime
