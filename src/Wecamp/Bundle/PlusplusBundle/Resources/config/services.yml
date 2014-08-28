@@ -5,3 +5,7 @@ services:
     wecamp_plusplus.data:
         class: %wecamp_plusplus.doctrine.service%
         arguments: [ @doctrine.orm.entity_manager ]
+
+    wecamp_plusplus.form:
+        class: Wecamp\Bundle\PlusplusBundle\Service\SharedForms
+        arguments: [ @form.factory ]
