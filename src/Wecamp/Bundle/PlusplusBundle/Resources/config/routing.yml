@@ -19,6 +19,11 @@ _plusOneSubject:
     defaults:       { _controller: WecampPlusplusBundle:Subject:plusone }
     methods:        [ POST ]
 
+_getPlusOneSubject:
+    path:           /subject/{subjectId}/plusone
+    defaults:       { _controller: WecampPlusplusBundle:Subject:getPlusOnes }
+    methods:        [ GET ]
+
 _mapSubject:
     path:           /map/subject
     defaults:       { _controller: WecampPlusplusBundle:Map:displaySubject }

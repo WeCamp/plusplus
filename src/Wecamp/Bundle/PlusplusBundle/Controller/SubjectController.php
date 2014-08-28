@@ -5,6 +5,9 @@ namespace Wecamp\Bundle\PlusplusBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Wecamp\Bundle\PlusplusBundle\Entity\PlusOne;
 use Wecamp\Bundle\PlusplusBundle\Entity\Subject;
 
 class SubjectController extends Controller
@@ -74,6 +77,39 @@ class SubjectController extends Controller
             )
         )
         ->getForm();
+    }
+
+    /**
+     * Get a list of plus ones for a subject.
+     *
+     * @throws NotFoundHttpException
+     *
+     * @param int $subjectId
+     *
+     * @return Response
+     */
+    public function getPlusOnesAction($subjectId)
+    {
+        $subjectRepo = $this->getDoctrineService()->getSubjectRepository();
+
+        /** @var Subject $subject */
+        $subject = $subjectRepo->findOneById($subjectId);
+        if (is_null($subject)) {
+            throw new NotFoundHttpException();
+        }
+
+        $jsonBody = [];
+
+        /** @var PlusOne $plusOne */
+        foreach ($subject->getPlusOnes() as $plusOne) {
+            $jsonBody[] = [
+                'created' => $plusOne->getCreated()->format('N'),
+                'latitude' => $plusOne->getLatitude(),
+                'longitude' => $plusOne->getLongitude()
+            ];
+        }
+
+        return new JsonResponse($jsonBody);
     }
 
     /**
