@@ -12,6 +12,17 @@
             margin: 0;
             padding: 0;
         }
+
+        .bob_container .lable_counts_container div {
+            padding: 10px;
+            background-color: black;
+            color: white;
+        }
+
+        .bob-vertical-align-spacing-thingie {
+            margin-top: 10px;
+        }
+
     </style>
     <!-- Bootstrap -->
     <link href="{{ app.request.basepath }}/bundles/wecampplusplus/bootstrap-3.2.0/css/bootstrap.min.css" rel="stylesheet">
@@ -68,17 +79,25 @@
             $(document).on(
                 'ready',
                 function() {
+                    $('#added').hide();
                     submitElem.on('click', submitClicked);
                 }
             );
 
             function addSubject(name) {
+                $('#added').hide();
                 $.ajax(
                         '{{ path('_createSubject') }}',
                         {
                             type: 'POST',
                             data: {
                                 name: name
+                            },
+                            success: function(parameters) {
+                                console.log(parameters);
+                                $("#alertmessage").text(parameters);
+                                $("#added").show();
+
                             }
                         }
                 );
