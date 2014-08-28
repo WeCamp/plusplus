@@ -53,11 +53,26 @@ class SubjectController extends Controller
             'form',
             $subject,
             array(
-                'csrf_protection' => false
+                'csrf_protection' => false,
+                'attr' => array(
+                    'class' => 'form-horizontal'
+                )
             )
         )
-        ->add('name', 'text')
-        ->add('submit', 'submit', [ 'label' => 'Add Subject'] )
+        ->add('name', 'text', array(
+            'attr'=>
+                array(
+                    'class'=>'form-control',
+                ),
+            )
+        )
+        ->add('submit', 'submit', array(
+            'label' => 'Add Subject',
+            'attr' => array(
+                'class' => 'btn btn-default'
+                )
+            )
+        )
         ->getForm();
     }
 
