@@ -3,7 +3,9 @@
 {% block title %}Trend a Subject{% endblock %}
 
 {% block body %}
-    {{ form(form) }}
+    <h1>Charts!</h1>
+
+    {{ form_widget(form.subject) }}
     <canvas id="myChart" height="400"></canvas>
 {% endblock %}
 
@@ -20,16 +22,18 @@
                     var width = $('.container').width();
                     $('#myChart').attr('width', width);
 
-                    $('#update').on(
-                        'click',
+
+                    // Listen for select change
+                    $('select[name="subject"]').on(
+                        'change',
                         function() {
-                            event.preventDefault();
                             var subjectId = $('#subject').val();
                             if(subjectId != '') {
                                 getPlusOneData(subjectId);
                             }
                         }
                     );
+
                 }
             );
 
