@@ -6,15 +6,18 @@
 {% block body %}
 <ul class="list-group">
     {% for subject in subjects %}
-    <li class="subject list-group-item" data-subject-id="{{ subject.id }}">
+    <li class="bobs-list-item subject list-group-item" data-subject-id="{{ subject.id }}">
+        <div class="progress progress-bar bobs-super-duper-progress-bar">
+            <div class="progress-bar progress-bar-warning"></div>
+        </div>
+        <div class="internal-bob-list-item" style="">
         <span class="badge pull-right">{{ subject.plusones|length }}</span>
         {{ subject.name }}
+        </div>
     </li>
     {% endfor %}
 </ul>
 {% endblock %}
-
-
 {% block javascript %}
     {{ parent() }}
     <script>
