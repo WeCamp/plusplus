@@ -7,7 +7,7 @@
 <ul class="list-group">
     {% for subject in subjects %}
     <li class="bobs-list-item subject list-group-item" data-subject-id="{{ subject.id }}">
-        <div class="progress progress-bar bobs-super-duper-progress-bar">
+        <div class="progress progress-striped bobs-super-duper-progress-bar">
             <div class="progress-bar progress-bar-warning"></div>
         </div>
         <div class="internal-bob-list-item" style="">
@@ -32,7 +32,7 @@
         );
 
         function labelClicked(subjectListItem) {
-            console.log(subjectListItem);
+            subjectListItem.find('.bobs-super-duper-progress-bar').addClass('bar');
             var subjectId = subjectListItem.attr('data-subject-id');
             geoFindMe(addPlusOne, subjectId, subjectListItem);
         }
@@ -57,6 +57,7 @@
                 var badge = subjectListItem.find('.badge');
                 var subjectCount = parseInt( badge.text() );
                 badge.text(subjectCount+1);
+                subjectListItem.find('.bobs-super-duper-progress-bar').removeClass('bar');
             });
         }
 
