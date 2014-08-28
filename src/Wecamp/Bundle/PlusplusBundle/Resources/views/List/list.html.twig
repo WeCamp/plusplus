@@ -4,10 +4,9 @@
 
 
 {% block body %}
-<h1>Welcome to the List:list page</h1>
-<ul>
+<ul class="list-group">
     {% for subject in subjects %}
-    <li class="subject" data-subject-id="{{ subject.id }}">
+    <li class="subject list-group-item" data-subject-id="{{ subject.id }}">
         <span class="badge pull-right">{{ subject.plusones|length }}</span>
         {{ subject.name }}
     </li>
