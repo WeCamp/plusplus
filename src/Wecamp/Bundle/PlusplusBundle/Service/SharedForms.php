@@ -67,7 +67,12 @@ class SharedForms
             if($showbuttons=true) {
                 $form->add(
                     'update',
-                    'submit'
+                    'submit',
+                    [
+                        'attr' => [
+                            'class' => 'btn btn-default'
+                        ]
+                    ]
                 );
             }
             return $form->getForm();
