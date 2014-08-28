@@ -5,7 +5,18 @@
 {% block body %}
     <h1>Charts!</h1>
 
-    {{ form_widget(form.subject) }}
+    <div class="dataset-container">
+        <div class="row dataset-row form-group">
+            <div class="col-md-9">
+                {{ form_widget(form.subject) }}
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary dataset-add"><span class="glyphicon glyphicon-plus"></span> Add Another</button>
+                <button type="submit" class="btn btn-danger dataset-remove"><span class="glyphicon glyphicon-remove"></span> </button>
+            </div>
+        </div>
+    </div>
+
     <br>
 
     <div class="graph-title"></div>
@@ -18,6 +29,35 @@
 
     <script type="text/javascript">
 
+        var datasetList = {};
+
+        var colors = {
+            0: {
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)"
+            },
+            1: {
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)"
+            },
+            2: {
+                fillColor: "rgba(156,55,113,0.2)",
+                strokeColor: "rgba(156,55,113,1)",
+                pointColor: "rgba(156,55,113,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(156,55,113,1)"
+            }
+        };
+
         (function() {
             'use strict';
 
@@ -27,18 +67,63 @@
                     var width = $('.container').width();
                     $('#myChart').attr('width', width);
 
+                    var datasetElem = $('.dataset-row');
+                    var datasetContElem = $('.dataset-container');
 
                     // Listen for select change
-                    $('select[name="subject"]').on(
+                    $('body').on(
                         'change',
+                        'select[name="subject"]',
                         function() {
-                            var subjectId = $('#subject').val();
+                            var subjectId = $(this).val();
                             if(subjectId != '') {
                                 getPlusOneData(subjectId);
+                            }
+
+                            var selectList = $('select[name="subject"]');
+                            var subjectIdList = {};
+                            for (var i = 0; i < selectList.length; i++) {
+                                subjectIdList[$(selectList[i]).val()] = true;
+                            }
+
+                            for (var index in datasetList) {
+                                if (!(index in subjectIdList)) {
+                                    delete datasetList[index];
+                                }
                             }
                         }
                     );
 
+                    $('body').on(
+                        'click',
+                        '.dataset-add',
+                        function() {
+                            var rowList = $('.dataset-row');
+
+                            if (rowList.length < 3) {
+                                var newDatasetElem = datasetElem.clone();
+
+                                newDatasetElem.appendTo(datasetContElem);
+                            }
+                        }
+                    );
+
+                    $('body').on(
+                        'click',
+                        '.dataset-remove',
+                        function() {
+                            var row = $(this).parents('.dataset-row');
+                            var rowList = $('.dataset-row');
+                            var subjectId = row.find('select[name="subject"]').val();
+
+                            if (rowList.length > 1) {
+                                row.remove();
+                                delete datasetList[subjectId];
+
+                                renderGraph();
+                            }
+                        }
+                    );
                 }
             );
 
@@ -51,18 +136,17 @@
         function getPlusOneData(id) {
 
             $.ajax(
-                    baseRoute.replace('__id__', id),
-                    {
-                        type: 'GET'
-                    }
+                baseRoute.replace('__id__', id),
+                {
+                    type: 'GET'
+                }
             ).done(function(data) {
-                console.log(data);
-                renderGraph(data);
+                addData(id, data);
+                renderGraph();
             });
         }
 
-        function renderGraph(data) {
-            console.log();
+        function addData(id, data) {
             var hours = {};
             for(var i=0; i<24; i++) {
                 hours[i]=0;
@@ -77,40 +161,46 @@
                 length++;
             }
 
-            console.log(hours);
+            datasetList[id] = hours;
+            console.log(datasetList);
+        }
+
+        function renderGraph() {
             var graphData = {
                 labels: ["12pm","1am","2am","3am","4am","5am","6am","7am","8am","9am","10am","11am","12am","1pm","2pm","3pm","4pm","5pm","6pm","7pm","8pm","9pm","10pm","11pm","12pm"],
-                datasets: [
-                    {
-                        label: "My First dataset",
-                        fillColor: "rgba(220,220,220,0.2)",
-                        strokeColor: "rgba(220,220,220,1)",
-                        pointColor: "rgba(220,220,220,1)",
-                        pointStrokeColor: "#fff",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: hours
-                    }
-                ]
+                datasets: []
             };
+
+            var i = 0;
+            for (var index in datasetList) {
+                var data = colors[i];
+
+                data.label = 'bob';
+                data.data = datasetList[index];
+
+                graphData.datasets.push(data);
+
+                i++;
+            }
+console.log(graphData)
             var options = {
                 responsive: true
-            }
+            };
             var ctx = document.getElementById("myChart").getContext("2d");
             var myLineChart = new Chart(ctx).Line(graphData, options);
 
 
 
-            if (!length) {
-                return;
-            }
-
-            var first = moment(data[0].created).format('ddd Do MMM [\']YY');
-            var last = moment(data[length-1].created).format('ddd Do MMM [\']YY');
-
-            $('.graph-title').text(
-                first + ' - ' + last
-            )
+//            if (!length) {
+//                return;
+//            }
+//
+//            var first = moment(data[0].created).format('ddd Do MMM [\']YY');
+//            var last = moment(data[length-1].created).format('ddd Do MMM [\']YY');
+//
+//            $('.graph-title').text(
+//                first + ' - ' + last
+//            )
         }
     </script>
 {% endblock %}
