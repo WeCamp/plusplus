@@ -44,10 +44,7 @@ class DownloadController extends Controller
 
         return new JsonResponse(
             $jsonBody,
-            JsonResponse::HTTP_OK,
-            [
-                'Content-Disposition' => 'attachment; filename=plus_plus_data.json'
-            ]
+            JsonResponse::HTTP_OK
         );
     }
 
