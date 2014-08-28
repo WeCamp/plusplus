@@ -17,7 +17,7 @@ class ListController extends Controller
         $currentLetter = null;
         $subjects = array();
         foreach($subjectsOrdered as $subject) {
-            $currentLetter = substr($subject->getName(),0,1);
+            $currentLetter = strtoupper(substr($subject->getName(),0,1));
             $subjects[$currentLetter][] = $subject;
         }
         return $this->render('WecampPlusplusBundle:List:list.html.twig', array(
