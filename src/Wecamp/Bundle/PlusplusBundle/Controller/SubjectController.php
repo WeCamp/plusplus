@@ -103,7 +103,7 @@ class SubjectController extends Controller
         /** @var PlusOne $plusOne */
         foreach ($subject->getPlusOnes() as $plusOne) {
             $jsonBody[] = [
-                'created' => $plusOne->getCreated()->format('N'),
+                'created' => $plusOne->getCreated()->format('c'),
                 'latitude' => $plusOne->getLatitude(),
                 'longitude' => $plusOne->getLongitude()
             ];

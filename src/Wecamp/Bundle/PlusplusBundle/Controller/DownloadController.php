@@ -37,7 +37,7 @@ class DownloadController extends Controller
                 $jsonBody[$subject->getName()][] = [
                     'latitude' => $plusOne->getLatitude(),
                     'longitude' => $plusOne->getLongitude(),
-                    'created' => $plusOne->getCreated()->format('N')
+                    'created' => $plusOne->getCreated()->format('c')
                 ];
             }
         }
