@@ -35,7 +35,7 @@ class SharedForms
      *
      * @return FormInterface
      */
-    public function getSubjectSelectForm()
+    public function getSubjectSelectForm($expanded=false,$multi=false)
     {
         return $this->formFactory->createNamedBuilder(
                 null,
@@ -59,7 +59,9 @@ class SharedForms
                     'label' => '',
                     'attr' => [
                         'class' => 'form-control'
-                    ]
+                    ],
+                    'multiple' => $multi,
+                    'expanded' => $expanded
                 ]
             )
             ->getForm();
