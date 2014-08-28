@@ -22,6 +22,7 @@
         (function() {
             'use strict';
 
+            // Setup google maps
             function initialize() {
 
                 var mapOptions = {
@@ -35,7 +36,42 @@
             }
             google.maps.event.addDomListener(window, 'load', initialize);
 
+
+            $(document).on(
+                'ready',
+                function() {
+
+                    // Listen for select change
+                    $('select[name="subject"]').on(
+                        'change',
+                        function() {
+                            getPlusOneData($(this).val());
+                        }
+                    );
+                }
+            );
         })();
+
+        var baseRoute = '{{ path('_getPlusOneSubject', { subjectId: '__id__' }) }}';
+
+        // Perform an ajax lookup of subject plus one data
+        function getPlusOneData(id) {
+
+            $.ajax(
+                baseRoute.replace('__id__', id),
+                {
+                    type: 'GET'
+                }
+            ).done(function(data) {
+                console.log(data);
+            });
+        }
+
+        function updateMap(e) {
+            console.log(e)
+
+                alert( this.value ); // or $(this).val()
+        }
 
         /** Get map boundries from array of latitude & longitudes.
          *
