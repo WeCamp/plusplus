@@ -5,5 +5,72 @@
 {% block body %}
     <div class="container">
         <h1>Maps!</h1>
+
+        <div id="map-canvas" style="height: 300px; width: 300px;"></div>
     </div>
+{% endblock %}
+
+{% block javascript %}
+
+    {# TODO: The Api Key should not be hard-coded here! #}
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDB4K14MyLa8AUbPNs2pN4VXwAXh-BUdWk"></script>
+
+
+    <script type="text/javascript">
+        (function() {
+            'use strict';
+
+            function initialize() {
+
+                var mapOptions = {
+                    center: new google.maps.LatLng(-34.397, 150.644),
+                    zoom: 8
+                };
+                var map = new google.maps.Map(
+                    document.getElementById("map-canvas"),
+                    mapOptions
+                );
+            }
+            google.maps.event.addDomListener(window, 'load', initialize);
+
+        })();
+
+        /** Get map boundries from array of latitude & longitudes.
+         *
+         * @param latLongList
+         *
+         * @returns {min_lat: undefined, max_lat: undefined, min_long: undefined, max_long: undefined}
+         */
+        function getMapBounds(latLongList) {
+            'use strict';
+
+            var bounds = {
+                min_lat: undefined,
+                max_lat: undefined,
+                min_long: undefined,
+                max_long: undefined
+            };
+            var latLong;
+            var i;
+
+            for (i = 0; i < latLongList.length; i++) {
+                latLong = latLongList[i];
+                if (isNaN(bounds.min_lat) || latLong.latitude < bounds.min_lat) {
+                    bounds.min_lat = parseFloat(latLong.latitude);
+                }
+                if (isNaN(bounds.max_lat) || latLong.latitude > bounds.max_lat) {
+                    bounds.max_lat = parseFloat(latLong.latitude);
+                }
+                if (isNaN(bounds.min_long) || latLong.longitude < bounds.min_long) {
+                    bounds.min_long = parseFloat(latLong.longitude);
+                }
+                if (isNaN(bounds.max_long) || latLong.longitude > bounds.max_long) {
+                    bounds.max_long = parseFloat(latLong.longitude);
+                }
+            }
+
+            return bounds;
+        }
+
+    </script>
 {% endblock %}
