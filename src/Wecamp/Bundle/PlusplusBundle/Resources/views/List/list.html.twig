@@ -33,6 +33,9 @@
 
         function labelClicked(subjectListItem) {
             subjectListItem.find('.bobs-super-duper-progress-bar').addClass('bar');
+            setTimeout(function() {
+                subjectListItem.find('.bobs-super-duper-progress-bar').removeClass('bar');
+            }, 8000);
             var subjectId = subjectListItem.attr('data-subject-id');
             geoFindMe(addPlusOne, subjectId, subjectListItem);
         }
@@ -57,7 +60,6 @@
                 var badge = subjectListItem.find('.badge');
                 var subjectCount = parseInt( badge.text() );
                 badge.text(subjectCount+1);
-                subjectListItem.find('.bobs-super-duper-progress-bar').removeClass('bar');
             });
         }
 
