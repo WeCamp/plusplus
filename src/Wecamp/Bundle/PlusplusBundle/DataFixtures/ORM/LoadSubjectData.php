@@ -24,20 +24,20 @@ class LoadSubjectData extends AbstractFixture implements FixtureInterface, Order
      */
     function load(ObjectManager $manager)
     {
-        $subjectOne = new Subject();
-        $subjectOne->setName('Beer Drunk');
-        $manager->persist($subjectOne);
-        $this->addReference('subject-one', $subjectOne);
+        $beersSubject = new Subject();
+        $beersSubject->setName('Beers Drunk');
+        $manager->persist($beersSubject);
+        $this->addReference('subject-beers', $beersSubject);
 
-        $subjectTwo = new Subject();
-        $subjectTwo->setName('Pizza Eaten');
-        $manager->persist($subjectTwo);
-        $this->addReference('subject-two', $subjectTwo);
+        $pizzasSubject = new Subject();
+        $pizzasSubject->setName('Pizzas Eaten');
+        $manager->persist($pizzasSubject);
+        $this->addReference('subject-pizzas', $pizzasSubject);
 
-        $subjectThree = new Subject();
-        $subjectThree->setName('Hangovers Endured');
-        $manager->persist($subjectThree);
-        $this->addReference('subject-three', $subjectThree);
+        $hangoversSubject = new Subject();
+        $hangoversSubject->setName('Hangovers Endured');
+        $manager->persist($hangoversSubject);
+        $this->addReference('subject-hangovers', $hangoversSubject);
 
         $manager->flush();
     }
