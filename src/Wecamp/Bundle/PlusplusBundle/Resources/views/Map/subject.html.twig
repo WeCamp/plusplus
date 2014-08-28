@@ -19,18 +19,24 @@
 
 
     <script type="text/javascript">
+        var map;    // TODO: This should not be global!
+        var mapElem;
+        var markerList = [];
+
         (function() {
             'use strict';
 
             // Setup google maps
             function initialize() {
 
+                mapElem = $('#map-canvas');
+
                 var mapOptions = {
                     center: new google.maps.LatLng(52.3722198,5.6345525),
                     zoom: 8
                 };
-                var map = new google.maps.Map(
-                    document.getElementById("map-canvas"),
+                map = new google.maps.Map(
+                    mapElem[0],
                     mapOptions
                 );
             }
@@ -63,17 +69,89 @@
                     type: 'GET'
                 }
             ).done(function(data) {
-                console.log(data);
+
+                // Get only lat/long data
+                var latLongList = [];
+                for (var index in data) {
+                    if (data.hasOwnProperty(index)) {
+                        latLongList.push({
+                            latitude: data[index].latitude,
+                            longitude: data[index].longitude
+                        });
+                    }
+                }
+
+                updateMap(latLongList);
             });
         }
 
-        function updateMap(e) {
-            console.log(e)
+        /**
+         * Clear any previously added markers.
+         */
+        function clearMarkers() {
+            var j;
 
-                alert( this.value ); // or $(this).val()
+            for (j = 0; j < markerList.length; j++) {
+                markerList[j].setMap(null);
+            }
+
+            markerList = [];
         }
 
-        /** Get map boundries from array of latitude & longitudes.
+        /**
+         * Add markers for the latitude / longitude provided
+         */
+        function addMarkers(latLongList) {
+            var j;
+            var marker;
+
+            for (j = 0; j < latLongList.length; j++) {
+                marker = new google.maps.Marker({
+                    map: map,
+                    position: new google.maps.LatLng(
+                        latLongList[j].latitude,
+                        latLongList[j].longitude
+                    )
+                });
+
+                markerList.push(marker);
+            }
+        }
+
+        /**
+         * Update the map with the new coordinates
+         */
+        function updateMap(latLongList) {
+
+            // Only proceed if we have some coords
+            if (latLongList.length) {
+
+                var bounds = getMapBounds(latLongList);
+                var center = getCenterFromBounds(bounds);
+                var zoom = getZoomLevelFromBounds(
+                    bounds,
+                    {
+                        width: mapElem.width(),
+                        height: mapElem.height()
+                    }
+                );
+
+                clearMarkers();
+                addMarkers(latLongList);
+
+                if (zoom > 16) {
+                    zoom = 16;
+                }
+                map.setCenter(center);
+                map.setZoom(zoom);
+
+            } else {
+                clearMarkers();
+            }
+        }
+
+        /**
+         * Get map boundries from array of latitude & longitudes.
          *
          * @param latLongList
          *
@@ -108,6 +186,47 @@
             }
 
             return bounds;
+        }
+
+        /** Calculate the centre point from a boundries object.
+         *
+         * @param bounds
+         * @returns {google.maps.LatLng}
+         */
+        function getCenterFromBounds(bounds) {
+            'use strict';
+            var diffLat = bounds.max_lat - bounds.min_lat;
+            var diffLong = bounds.max_long - bounds.min_long;
+            return new google.maps.LatLng(
+                    bounds.min_lat + (diffLat / 2),
+                    bounds.min_long + (diffLong / 2)
+            );
+        }
+        /** Get the zoom level from bounds.
+         *
+         * @param bounds
+         * @param mapDim Dimensions of the map in pixels
+         *
+         * @returns {number}
+         */
+        function getZoomLevelFromBounds(bounds, mapDim) {
+            'use strict';
+            var WORLD_DIM = { height: 256, width: 256 };
+            var ZOOM_MAX = 21;
+            function latRad(lat) {
+                var sin = Math.sin(lat * Math.PI / 180);
+                var radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
+                return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
+            }
+            function zoom(mapPx, worldPx, fraction) {
+                return Math.floor(Math.log(mapPx / worldPx / fraction) / Math.LN2);
+            }
+            var latFraction = (latRad(bounds.max_lat) - latRad(bounds.min_lat)) / Math.PI;
+            var lngDiff = bounds.max_long - bounds.min_long;
+            var lngFraction = ((lngDiff < 0) ? (lngDiff + 360) : lngDiff) / 360;
+            var latZoom = zoom(mapDim.height, WORLD_DIM.height, latFraction);
+            var lngZoom = zoom(mapDim.width, WORLD_DIM.width, lngFraction);
+            return Math.min(latZoom, lngZoom, ZOOM_MAX);
         }
 
     </script>
