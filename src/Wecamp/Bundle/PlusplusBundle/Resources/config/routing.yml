@@ -1,20 +1,28 @@
 
 list:
-    path:     /
-    defaults: { _controller: WecampPlusplusBundle:List:list }
+    path:           /
+    defaults:       { _controller: WecampPlusplusBundle:List:list }
+    methods:        [ GET ]
 
 _add:
-    path:     /subject/add
-    defaults: { _controller: WecampPlusplusBundle:Subject:add }
+    path:           /subject/add
+    defaults:       { _controller: WecampPlusplusBundle:Subject:add }
+    methods:        [ GET ]
 
 _createSubject:
-    path:        /subject/create
+    path:           /subject/create
     defaults:       { _controller: WecampPlusplusBundle:Subject:create }
-    methods:  [POST]
+    methods:        [ POST ]
 
 _plusOneSubject:
-  path: /plusone
-  defaults: { _controller: WecampPlusplusBundle:Subject:plusone }
+    path:           /plusone
+    defaults:       { _controller: WecampPlusplusBundle:Subject:plusone }
+    methods:        [ POST ]
+
+_mapSubject:
+    path:           /map/subject
+    defaults:       { _controller: WecampPlusplusBundle:Map:displaySubject }
+    methods:        [ GET ]
 
 _download:
     pattern:        /download
