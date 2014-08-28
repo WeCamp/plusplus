@@ -44,7 +44,7 @@ class SharedForms
                 [
                     'csrf_protection' => false,
                     'attr' => [
-                        'class' => 'form-horizontal'
+                        'class' => 'form-inline'
                     ]
                 ]
             )
@@ -56,7 +56,7 @@ class SharedForms
                     'property' => 'name',
                     'empty_value' => 'Select a label...',
                     'empty_data' => null,
-                    'label' => '',
+                    'label' => 'Labels:',
                     'attr' => [
                         'class' => 'form-control'
                     ],
@@ -70,7 +70,7 @@ class SharedForms
                     'submit',
                     [
                         'attr' => [
-                            'class' => 'btn btn-default'
+                            'class' => 'btn btn-success'
                         ]
                     ]
                 );
