@@ -35,9 +35,9 @@ class SharedForms
      *
      * @return FormInterface
      */
-    public function getSubjectSelectForm($expanded=false,$multi=false)
+    public function getSubjectSelectForm($expanded=false,$multi=false,$showbuttons=false)
     {
-        return $this->formFactory->createNamedBuilder(
+        $form = $this->formFactory->createNamedBuilder(
                 null,
                 'form',
                 null,
@@ -63,7 +63,13 @@ class SharedForms
                     'multiple' => $multi,
                     'expanded' => $expanded
                 ]
-            )
-            ->getForm();
+            );
+            if($showbuttons=true) {
+                $form->add(
+                    'update',
+                    'submit'
+                );
+            }
+            return $form->getForm();
     }
 } 

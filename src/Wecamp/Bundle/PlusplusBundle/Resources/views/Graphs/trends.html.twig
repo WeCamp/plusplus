@@ -4,7 +4,88 @@
 
 {% block body %}
     {{ form(form) }}
+    <canvas id="myChart" height="400"></canvas>
 {% endblock %}
 
 {% block javascript %}
+    <script src="{{ app.request.basepath }}/bundles/wecampplusplus/chart.js/Chart.min.js"></script>
+    <script type="text/javascript">
+
+        (function() {
+            'use strict';
+
+            $(document).on(
+                'ready',
+                function() {
+                    var width = $('.container').width();
+                    $('#myChart').attr('width', width);
+
+                    $('#update').on(
+                        'click',
+                        function() {
+                            event.preventDefault();
+                            var subjectId = $('#subject').val();
+                            if(subjectId != '') {
+                                getPlusOneData(subjectId);
+                            }
+                        }
+                    );
+                }
+            );
+
+
+        })();
+
+        var baseRoute = '{{ path('_getPlusOneSubject', { subjectId: '__id__' }) }}';
+
+        // Perform an ajax lookup of subject plus one data
+        function getPlusOneData(id) {
+
+            $.ajax(
+                    baseRoute.replace('__id__', id),
+                    {
+                        type: 'GET'
+                    }
+            ).done(function(data) {
+                console.log(data);
+                renderGraph(data);
+            });
+        }
+
+        function renderGraph(data) {
+            console.log();
+            var hours = {};
+            for(var i=0; i<24; i++) {
+                hours[i]=0;
+            }
+            for(var index in data) {
+                var dateString = data[index].created;
+                var newDate = new Date(dateString);
+                var hour = newDate.getHours();
+                hours[hour]++;
+            }
+            console.log(hours);
+            var graphData = {
+                labels: ["12pm","1am","2am","3am","4am","5am","6am","7am","8am","9am","10am","11am","12am","1pm","2pm","3pm","4pm","5pm","6pm","7pm","8pm","9pm","10pm","11pm","12pm"],
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: hours
+                    }
+                ]
+            };
+            var options = {
+                responsive: true
+            }
+            var ctx = document.getElementById("myChart").getContext("2d");
+            var myLineChart = new Chart(ctx).Line(graphData, options);
+
+        }
+    </script>
 {% endblock %}

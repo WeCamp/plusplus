@@ -12,7 +12,7 @@ class GraphsController extends Controller
         $subjects = $this->getDoctrineService()->getSubjectRepository()->findAll();
         return $this->render('WecampPlusplusBundle:Graphs:trends.html.twig', array(
                 'subjects' => $subjects,
-                'form' => $this->getSharedForms()->getSubjectSelectForm(true,true)->createView()
+                'form' => $this->getSharedForms()->getSubjectSelectForm()->createView()
             )
         );
     }
