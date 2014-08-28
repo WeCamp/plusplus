@@ -52,6 +52,19 @@
             -o-transition: width 8.0s ease !important;
             transition: width 8.0s ease !important;
         }
+
+        div.bobs-form-layout div {
+            float: right;
+        }
+
+        div.bobs-form-layout div + div {
+            float:left;
+            width: 300px;
+        }
+
+        .bobs-form-layout .form-control {
+            width:100% !important;
+        }
     </style>
     <!-- Bootstrap -->
     <link href="{{ app.request.basepath }}/bundles/wecampplusplus/bootstrap-3.2.0/css/bootstrap.min.css" rel="stylesheet">
@@ -124,7 +137,6 @@
                                 name: name
                             },
                             success: function(parameters) {
-                                console.log(parameters);
                                 $("#alertmessage").text(parameters);
                                 $("#added").show();
 

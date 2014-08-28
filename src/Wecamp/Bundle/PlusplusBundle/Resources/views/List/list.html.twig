@@ -21,10 +21,55 @@
     {% endfor %}
 </ul>
 {% endfor %}
+    <ul class="list-group" style="margin-top:10px;">
+        <li class="list-group-item list-group-item-info">Subject Missing?</li>
+        <li class="list-group-item">
+        {{ form(form) }}
+        </li>
+    </ul>
 {% endblock %}
+
 {% block javascript %}
-    {{ parent() }}
+
     <script>
+        (function() {
+            'use strict';
+
+            var nameElem = $('#name');
+            var submitElem = $('#submit');
+
+            $(document).on(
+                    'ready',
+                    function() {
+                        submitElem.on('click', submitClicked);
+                    }
+            );
+
+            function addSubject(name) {
+
+                $.ajax(
+                        '{{ path('_createSubject') }}',
+                        {
+                            type: 'POST',
+                            data: {
+                                name: name
+                            },
+                            success: function(parameters) {
+                                location.reload();
+                            }
+                        }
+                );
+            }
+
+            function submitClicked(e) {
+                var name = nameElem.val();
+                if (name != '' ) {
+                    $('#submit').addClass('disabled');
+                    addSubject(nameElem.val());
+                    e.preventDefault();
+                }
+            }
+        })();
     (function() {
         'use strict';
 

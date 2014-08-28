@@ -21,7 +21,8 @@ class ListController extends Controller
             $subjects[$currentLetter][] = $subject;
         }
         return $this->render('WecampPlusplusBundle:List:list.html.twig', array(
-                'subjects' => $subjects
+                'subjects' => $subjects,
+                'form' => $this->getSubjectForm()->createView()
             )
         );
     }
@@ -32,5 +33,44 @@ class ListController extends Controller
     private function getDoctrineService()
     {
         return $this->get('wecamp_plusplus.data');
+    }
+
+    /**
+     * @return \Symfony\Component\Form\Form
+     */
+    private function getSubjectForm()
+    {
+        return $this->get('form.factory')->createNamedBuilder(
+            null,
+            'form',
+            null,
+            array(
+                'csrf_protection' => false,
+                'attr' => array(
+                    'class' => 'bobs-form-layout form-inline input-group'
+
+                )
+            )
+        )
+            ->add('submit', 'submit', array(
+                    'label' => 'Add Subject',
+                    'attr' => array(
+                        'class' => 'btn btn-default'
+                    )
+                )
+            )
+            ->add('name', 'text', array(
+                    'label_attr' => array(
+                        'class' => 'hide',
+                    ),
+                    'attr'=>
+                        array(
+                            'class'=>'form-control',
+                            'placeholder' => 'Name'
+                        ),
+                )
+            )
+
+            ->getForm();
     }
 }
