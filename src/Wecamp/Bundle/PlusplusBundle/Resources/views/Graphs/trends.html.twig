@@ -22,6 +22,8 @@
     <div class="graph-title"></div>
 
     <canvas id="myChart" height="400"></canvas>
+
+    <div class="plusplus-legend"></div>
 {% endblock %}
 
 {% block javascript %}
@@ -77,7 +79,7 @@
                         function() {
                             var subjectId = $(this).val();
                             if(subjectId != '') {
-                                getPlusOneData(subjectId);
+                                getPlusOneData(subjectId, $(this).find(':selected').text());
                             }
 
                             var selectList = $('select[name="subject"]');
@@ -133,7 +135,7 @@
         var baseRoute = '{{ path('_getPlusOneSubject', { subjectId: '__id__' }) }}';
 
         // Perform an ajax lookup of subject plus one data
-        function getPlusOneData(id) {
+        function getPlusOneData(id, name) {
 
             $.ajax(
                 baseRoute.replace('__id__', id),
@@ -141,12 +143,12 @@
                     type: 'GET'
                 }
             ).done(function(data) {
-                addData(id, data);
+                addData(id, data, name);
                 renderGraph();
             });
         }
 
-        function addData(id, data) {
+        function addData(id, data, name) {
             var hours = {};
             for(var i=0; i<24; i++) {
                 hours[i]=0;
@@ -161,7 +163,10 @@
                 length++;
             }
 
-            datasetList[id] = hours;
+            datasetList[id] = {
+                hours: hours,
+                name: name
+            };
             console.log(datasetList);
         }
 
@@ -175,20 +180,25 @@
             for (var index in datasetList) {
                 var data = colors[i];
 
-                data.label = 'bob';
-                data.data = datasetList[index];
+                data.label = datasetList[index].name;
+                data.data = datasetList[index].hours;
 
                 graphData.datasets.push(data);
 
                 i++;
             }
-console.log(graphData)
+
             var options = {
                 responsive: true
             };
             var ctx = document.getElementById("myChart").getContext("2d");
             var myLineChart = new Chart(ctx).Line(graphData, options);
 
+            var legendElem = $(myLineChart.generateLegend());
+            var legendCont = $('.plusplus-legend');
+
+            legendCont.children().remove();
+            legendElem.appendTo(legendCont);
 
 
 //            if (!length) {
